@@ -6,6 +6,7 @@ int findMaxLength(vector<int>& nums) {
     hm[0] = -1;
 
     int cnt = 0, max_len = 0;
+
     for (int i = 0; i < nums.size(); ++i) {
         cnt += (nums[i] == 0) ? -1 : 1;
         if (hm.count(cnt)) {
