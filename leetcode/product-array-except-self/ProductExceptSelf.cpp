@@ -3,19 +3,18 @@ using namespace std;
 
 vector<int> productExceptSelf(vector<int>& nums) {
     size_t n = nums.size();
-    vector<int> prefix(n, 1), suffix(n, 1), product(n);
-    prefix[0] = 1;
-    for (size_t i = 1; i < n; ++i) {
-        prefix[i] = prefix[i-1] * nums[i-1];
+    vector<int> prod(n);
+    int prefix = 1;
+    for (int i = 0; i < n; ++i) {
+        prod[i] = prefix;
+        prefix *= nums[i];
     }
-    suffix[n-1] = 1;
-    for (int i = n - 2; i >= 0; --i) {
-        suffix[i] = suffix[i+1] * nums[i+1];
+    int suffix = 1;
+    for (int i = n-1; i >= 0; --i) {
+        prod[i] *= suffix;
+        suffix *= nums[i];
     }
-    for (size_t i = 0; i < n; ++i) {
-        product[i] = prefix[i] * suffix[i];
-    }
-    return product;
+    return prod;
 }
 
 int main(int argc, char const *argv[]) {
