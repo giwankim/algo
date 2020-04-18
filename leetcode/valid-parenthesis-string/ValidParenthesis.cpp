@@ -1,29 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool check(int i, int cnt, const string &s)
-{
-    if (i == s.size()) return cnt == 0;
-    if (cnt < 0) return false;
-    char c = s[i];
-    if (c == '(')
-    {
-        return check(i + 1, cnt + 1, s);
+bool checkValidString(string s) {
+    int n = (int)s.size();
+    vector<vector<int>> T(n, vector<int>(n));
+    for (int i = 0; i+1 < n; ++i) {
+        if (s[i] == '*')
+            T[i][i] = 1;
+        if ((s[i] == '(' || s[i] == '*') &&
+            (s[i+1] == ')' || s[i+1] == '*')) {
+            T[i][i+1] = 1;
+        }
     }
-    else if (c == ')')
-    {
-        return check(i + 1, cnt - 1, s);
-    }
-    else if (c == '*')
-    {
-        return check(i + 1, cnt + 1, s) || check(i + 1, cnt - 1, s) || check(i + 1, cnt, s);
-    }
-    return cnt == 0;
-}
+    if (s[n-1] == '*')
+        T[n-1][n-1] = 1;
 
-bool checkValidString(string s)
-{
-    return check(0, 0, s);
+    return T[0][n-1];
 }
 
 int main(int argc, char const *argv[])
