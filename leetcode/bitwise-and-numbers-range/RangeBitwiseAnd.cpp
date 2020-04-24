@@ -2,13 +2,10 @@
 using namespace std;
 
 int rangeBitwiseAnd(int m, int n) {
-    int shifts = 0;
     while (m < n) {
-        m >>= 1;
-        n >>= 1;
-        shifts += 1;
+        n = n & (n - 1);
     }
-    return m << shifts;
+    return m & n;
 }
 
 int main(int argc, char const *argv[]) {
