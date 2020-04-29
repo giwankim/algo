@@ -4,9 +4,8 @@ using namespace std;
 class FirstUnique
 {
 private:
-    list<int> uniqs;
-    unordered_map<int, list<int>::iterator> table;
-    unordered_set<int> dups;
+    queue<int> q;
+    unordered_map<int, int> cnts;
 
 public:
     FirstUnique(vector<int> &nums)
@@ -17,22 +16,16 @@ public:
 
     int showFirstUnique()
     {
-        return uniqs.empty() ? -1 : uniqs.front();
+        while (!q.empty() && cnts[q.front()] > 1) {
+            q.pop();
+        }
+        return q.empty() ? -1 : q.front();
     }
 
     void add(int value)
     {
-        if (dups.count(value))
-            return;
-        auto it = table.find(value);
-        if (it == table.end()) {
-            uniqs.push_back(value);
-            table[value] = --uniqs.end();
-        } else {
-            dups.insert(value);
-            uniqs.erase(it->second);
-            table.erase(it);
-        }
+        if (++cnts[value] == 1)
+            q.push(value);
     }
 };
 
