@@ -1,6 +1,6 @@
 #include "bits/stdc++.h"
 using namespace std;
-#define INF 99999999
+#define INF 1000000000
 
 struct TreeNode
 {
@@ -18,13 +18,10 @@ pair<int, int> dfs(TreeNode *root)
         return make_pair(-INF, 0);
     auto left = dfs(root->left);
     auto right = dfs(root->right);
-    int sum = root->val;
-    if (left.second > 0)
-        sum += left.second;
-    if (right.second > 0)
-        sum += right.second;
-    return make_pair(max({left.first, right.first, sum}),
-                         max({root->val, root->val + left.second, root->val + right.second}));
+    int left_gain = max(0, left.second);
+    int right_gain = max(0, right.second);
+    int sum = root->val + left_gain + right_gain;
+    return make_pair(max({left.first, right.first, sum}), root->val + max(left_gain, right_gain));
 }
 
 int maxPathSum(TreeNode *root)
