@@ -1,48 +1,40 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-bool same(vector<int> &a, vector<int> &b)
-{
-    if (a.size() != b.size())
-    {
-        return false;
-    }
-    for (int i = 0; i < (int)a.size(); ++i)
-    {
-        if (a[i] != b[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 vector<int> findAnagrams(string s, string p)
 {
+    int n = s.size(), m = p.size();
+    if (n < m)
+    {
+        return vector<int>();
+    }
     vector<int> cnts(26), window(26);
     for (char c : p)
     {
         cnts[c - 'a'] += 1;
     }
-
-    vector<int> indices;
-    int window_size = 0;
-
-    for (int i = 0; i < (int)s.size(); ++i)
+    for (int i = 0; i < m - 1; ++i)
     {
-        int charidx = s[i] - 'a';
-        window[charidx] += 1;
-        window_size += 1;
-
-        if (window_size == (int)p.size())
+        window[s[i] - 'a'] += 1;
+    }
+    vector<int> indices;
+    for (int i = m - 1; i < n; ++i)
+    {
+        window[s[i] - 'a'] += 1;
+        bool flag = true;
+        for (int j = 0; j < (int)cnts.size(); ++j)
         {
-            if (same(cnts, window))
+            if (cnts[j] != window[j])
             {
-                indices.push_back(i-p.size()+1);
+                flag = false;
+                break;
             }
-            window[s[i - p.size() + 1] -'a'] -= 1;
-            window_size -= 1;
         }
+        if (flag)
+        {
+            indices.push_back(i - m + 1);
+        }
+        window[s[i - m + 1] - 'a'] -= 1;
     }
     return indices;
 }
@@ -51,13 +43,24 @@ int main(int argc, char const *argv[])
 {
     {
         auto result = findAnagrams("cbaebabacd", "abc");
-        for (int x : result) {
-            cout << x << " ";
+        for (int x : result)
+        {
+            cout << x << " "; // 0 6
         }
         cout << endl;
     }
+
     {
-        for (int x : findAnagrams("abab", "ab")) {
+        for (int x : findAnagrams("abab", "ab"))
+        {
+            cout << x << " "; // 0 1 2
+        }
+        cout << endl;
+    }
+
+    {
+        for (int x : findAnagrams("aaaaaaaaaa", "aaaaaaaaaaaaa"))
+        {
             cout << x << " ";
         }
         cout << endl;
