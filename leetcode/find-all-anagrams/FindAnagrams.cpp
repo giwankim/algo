@@ -45,25 +45,25 @@ int main(int argc, char const *argv[])
         auto result = findAnagrams("cbaebabacd", "abc");
         for (int x : result)
         {
-            cout << x << " "; // 0 6
+            std::cout << x << " "; // 0 6
         }
-        cout << endl;
+        std::cout << std::endl;
     }
 
     {
         for (int x : findAnagrams("abab", "ab"))
         {
-            cout << x << " "; // 0 1 2
+            std::cout << x << " "; // 0 1 2
         }
-        cout << endl;
+        std::cout << std::endl;
     }
 
     {
         for (int x : findAnagrams("aaaaaaaaaa", "aaaaaaaaaaaaa"))
         {
-            cout << x << " ";
+            std::cout << x << " ";
         }
-        cout << endl;
+        std::cout << std::endl;
     }
     return 0;
 }
