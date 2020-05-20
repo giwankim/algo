@@ -11,20 +11,21 @@ struct TreeNode
     TreeNode(int x, TreeNode *_left, TreeNode *_right) : val(x), left(_left), right(_right) {}
 };
 
-void inorder(TreeNode *root, vector<int> &vec)
+pair<bool, int> inorder(TreeNode *root, int &k)
 {
     if (root == nullptr)
-        return;
-    inorder(root->left, vec);
-    vec.push_back(root->val);
-    inorder(root->right, vec);
+        return make_pair(false, -1);
+    auto left = inorder(root->left, k);
+    if (left.first)
+        return left;
+    if (--k == 0)
+        return make_pair(true, root->val);
+    return inorder(root->right, k);
 }
 
 int kthSmallest(TreeNode *root, int k)
 {
-    vector<int> vec;
-    inorder(root, vec);
-    return vec[k - 1];
+    return inorder(root, k).second;
 }
 
 int main(int argc, char const *argv[])
