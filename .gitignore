@@ -2,6 +2,7 @@ tempCodeRunnerFile
 *.pdf
 algosrc/
 .vscode/
+out.txt
 
 # macOS
 .DS_Store
