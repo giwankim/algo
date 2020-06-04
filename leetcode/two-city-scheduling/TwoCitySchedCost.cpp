@@ -2,10 +2,10 @@
 using namespace std;
 
 int twoCitySchedCost(vector<vector<int>>& costs) {
-    std::sort(costs.begin(), costs.end(), [](auto& v1, auto& v2) {
+    int n = (int)costs.size() / 2;
+    std::nth_element(costs.begin(), costs.begin() + n, costs.end(), [](auto& v1, auto& v2) {
         return v1[0] - v1[1] < v2[0] - v2[1];
     });
-    int n = (int)costs.size() / 2;
     int ans = 0;
     for (int i = 0; i < n; ++i) {
         ans += costs[i][0] + costs[i + n][1];
