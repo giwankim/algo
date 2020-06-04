@@ -2,20 +2,13 @@
 using namespace std;
 
 int twoCitySchedCost(vector<vector<int>>& costs) {
+    std::sort(costs.begin(), costs.end(), [](auto& v1, auto& v2) {
+        return v1[0] - v1[1] < v2[0] - v2[1];
+    });
     int n = (int)costs.size() / 2;
-    vector<pair<int, int>> diffs(costs.size());
-    for (int i = 0; i < (int)diffs.size(); ++i) {
-        diffs[i] = make_pair(costs[i][0] - costs[i][1], i);
-    }
-    sort(diffs.begin(), diffs.end());
     int ans = 0;
     for (int i = 0; i < n; ++i) {
-        int idx = diffs[i].second;
-        ans += costs[idx][0];
-    }
-    for (int i = n; i < 2*n; ++i) {
-        int idx = diffs[i].second;
-        ans += costs[idx][1];
+        ans += costs[i][0] + costs[i + n][1];
     }
     return ans;
 }
