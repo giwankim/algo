@@ -43,6 +43,7 @@ void TestCase(const vector<int> &A, int k)
 
 static void SimpleTest()
 {
+    cout << "Running simple tests...\n"
     vector<int> A = {0, 1, 2, 3, 4, 5, 6, 7};
     assert(0 == SearchFirstOfK(A, 0));
     assert(1 == SearchFirstOfK(A, 1));
@@ -66,6 +67,7 @@ static void SimpleTest()
 
 int main(int argc, char const *argv[])
 {
+    // Simple test cases
     SimpleTest();
 
     // Test with random input
