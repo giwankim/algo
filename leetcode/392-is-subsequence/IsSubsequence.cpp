@@ -3,26 +3,26 @@ using namespace std;
 
 bool isSubsequence(string s, string t) {
     // Check whether s is a subsequence to t
-    if (s.empty()) {
-        return true;
-    }
-    int n = (int)s.size();
-    int m = (int)t.size();
-    int i = 0;
-    int j = 0;
-    while (j < m) {
+    size_t i = 0, j = 0;
+    while (i < s.size() && j < t.size()) {
         if (s[i] == t[j]) {
             i += 1;
-            j += 1;
-        } else {
-            j += 1;
         }
-        if (i == n) {
-            return true;
-        }
+        j += 1;
     }
-    return false;
+    return i == s.size();
 }
+
+/*
+Follow up:
+There are lots of incoming S, say S_1, S_2, ... , S_k where k >= 1B,
+and you want to check one by one to see if T has its subsequence.
+*/
+
+bool isSubsequence(vector<string>& strs, string t) {
+    
+}
+
 
 int main(int argc, char const *argv[]) {
     {
