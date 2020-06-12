@@ -18,12 +18,18 @@ void sortColors(vector<int> &nums)
     int lt = 0;
     int gt = n - 1;
     int val = 1;
-    for (int i = 0; i <= gt;) {
-        if (nums[i] < val) {
+    for (int i = 0; i <= gt;)
+    {
+        if (nums[i] < val)
+        {
             swap(nums[i++], nums[lt++]);
-        } else if (nums[i] > val) {
+        }
+        else if (nums[i] > val)
+        {
             swap(nums[i], nums[gt--]);
-        } else {
+        }
+        else
+        {
             i += 1;
         }
     }
@@ -32,7 +38,7 @@ void sortColors(vector<int> &nums)
 int main(int argc, char const *argv[])
 {
     {
-        cout << "===== Example 1 =====\n";
+        cout << "=====Example 1=====\n";
         vector<int> nums{2, 0, 2, 1, 1, 0};
         sortColors(nums);
         vector<int> correct_result{0, 0, 1, 1, 2, 2};
@@ -43,7 +49,7 @@ int main(int argc, char const *argv[])
         assert(nums == correct_result);
     }
     {
-        cout << "===== Example 2 =====\n";
+        cout << "=====Example 2=====\n";
         vector<int> nums{2, 0, 1};
         sortColors(nums);
         vector<int> correct_result{0, 1, 2};

@@ -1,21 +1,32 @@
 #include "bits/stdc++.h"
 using namespace std;
 
+int searchInsertSTL(vector<int> &nums, int target)
+{
+    return distance(nums.begin(), lower_bound(nums.begin(), nums.end(), target));
+}
+
 int searchInsert(vector<int> &nums, int target)
 {
     int lo = 0;
     int hi = (int)nums.size() - 1;
-    int ans = -1;
-    while (lo <= hi) {
+    while (lo <= hi)
+    {
         int mid = lo + (hi - lo) / 2;
-        if (nums[mid] < target) {
+        if (nums[mid] == target)
+        {
+            return mid;
+        }
+        else if (nums[mid] < target)
+        {
             lo = mid + 1;
-        } else {
-            ans = mid;
+        }
+        else
+        {
             hi = mid - 1;
         }
     }
-    return ans == -1 ? (int)nums.size() : ans;
+    return lo;
 }
 
 int main()
@@ -30,7 +41,7 @@ int main()
         cout << correct_result << "\n";
         cout << "Output:\n\t";
         cout << result << "\n";
-        // assert(result == correct_result);
+        assert(result == correct_result);
     }
     {
         cout << "=====Example 2=====\n";
@@ -42,7 +53,7 @@ int main()
         cout << correct_result << "\n";
         cout << "Output:\n\t";
         cout << result << "\n";
-        // assert(result == correct_result);
+        assert(result == correct_result);
     }
     {
         cout << "=====Example 3=====\n";
@@ -54,7 +65,7 @@ int main()
         cout << correct_result << "\n";
         cout << "Output:\n\t";
         cout << result << "\n";
-        // assert(result == correct_result);
+        assert(result == correct_result);
     }
     {
         cout << "=====Example 4=====\n";
@@ -66,7 +77,7 @@ int main()
         cout << correct_result << "\n";
         cout << "Output:\n\t";
         cout << result << "\n";
-        // assert(result == correct_result);
+        assert(result == correct_result);
     }
     return 0;
 }
