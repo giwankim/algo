@@ -3,8 +3,8 @@ using namespace std;
 
 class RandomizedSet {
 private:
-    list<int> nums;
-    unordered_map<int, list<int>::iterator> table;
+    vector<int> nums;
+    unordered_map<int, int> table;
     random_device rd;
     default_random_engine rng;
 
@@ -16,10 +16,10 @@ public:
     
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     bool insert(int val) {
-        if (table.count(val))
+        if (table.find(val) != table.end())
             return false;
         nums.push_back(val);
-        table[val] = prev(nums.end());
+        table[val] = (int)nums.size() - 1;
         return true;
     }
     
@@ -27,8 +27,13 @@ public:
     bool remove(int val) {
         if (table.find(val) == table.end())
             return false;
-        auto it = table[val];
-        nums.erase(it);
+        int idx = table[val];
+        int back_val = nums.back();
+        
+        nums[idx] = back_val;
+        table[back_val] = idx;
+
+        nums.pop_back();
         table.erase(val);
         return true;
     }
