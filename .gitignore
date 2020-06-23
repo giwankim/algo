@@ -3,6 +3,7 @@ tempCodeRunnerFile
 algosrc/
 .vscode/
 out.txt
+log.txt
 
 # macOS
 .DS_Store
