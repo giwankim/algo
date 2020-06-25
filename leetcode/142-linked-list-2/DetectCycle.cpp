@@ -15,17 +15,42 @@ void _printNode(ListNode *node) {
     }
 }
 
-ListNode* detectCycle(ListNode *head) {
+ListNode* detectCycleSimple(ListNode *head) {
     if (head == nullptr) return nullptr;
     unordered_set<ListNode*> seen;
     seen.insert(head);
     while (head = head->next) {
-        if (seen.find(head) != seen.end())
+        if (seen.find(head) != seen.end()) {
             return head;
-        else
+        } else {
             seen.insert(head);
+        }
     }
     return nullptr;
+}
+
+ListNode* detectCycle(ListNode *head) {
+    ListNode *slow = head;
+    ListNode *fast = head;
+    bool ok = false;
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+        // cout << "slow: " << slow->val << ", ";
+        // cout << "fast: " << fast->val << "\n";
+        if (slow == fast) {
+            ok = true;
+            break;
+        }
+    }
+    if (ok == false)
+        return nullptr;
+    slow = head;
+    while (slow != fast) {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    return slow;
 }
 
 int main(int argc, char const *argv[]) {
