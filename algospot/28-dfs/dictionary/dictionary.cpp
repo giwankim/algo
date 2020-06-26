@@ -2,69 +2,57 @@
 using namespace std;
 #define DEBUG 0
 
-const int VISITED = 1, UNVISITED = -1, VISITING = 0, R = 26;
+const int R = 26;
 
 int n;
 vector<vector<int>> adj;
+bool visited[R];
 vector<int> order;
-vector<int> dfs_num;
 
 // Adjacency matrix
 void make_graph(const vector<string>& words) {
-    adj.assign(R, vector<int>());
+    adj.assign(R, vector<int>(R));
     for (int i = 0; i+1 < words.size(); ++i) {
         int j = i + 1;
         int len = min(words[i].size(), words[j].size());
         for (int k = 0; k < len; ++k) {
-            if (words[i][k] == words[j][k])
-                continue;
+            if (words[i][k] == words[j][k]) continue;
             int a = words[i][k] - 'a';
             int b = words[j][k] - 'a';
-            adj[a].push_back(b);
+            adj[a][b] = 1;
             break;
         }
     }
 }
 
-bool dfs(int u) {
-    if (DEBUG) {
-        cerr << "Visiting " << char(u + 'a') << "\n";
-    }
-
-    dfs_num[u] = VISITING;
-
-    for (int j = 0; j < adj[u].size(); ++j) {
-        int v = adj[u][j];
-        if (dfs_num[v] == VISITING) {
-            return false;
-        }
-        if (dfs_num[v] == UNVISITED) {
-            if (dfs(v) == false) {
-                return false;
-            }
+void dfs(int u) {
+    visited[u] = true;
+    for (int v = 0; v < adj.size(); ++v) {
+        if (adj[u][v] && visited[v] == false) {
+            dfs(v);
         }
     }
-
-    dfs_num[u] = VISITED;
     order.push_back(u);
-
-    return true;
 }
 
 vector<int> topo_sort() {
-    dfs_num.assign(adj.size(), UNVISITED);
+    memset(visited, 0, sizeof visited);
     order.clear();
-
     for (int i = 0; i < adj.size(); ++i) {
-        if (dfs_num[i] == UNVISITED) {
-            if (dfs(i) == false) {
+        if (visited[i] == false) {
+            dfs(i);
+        }
+    }
+    reverse(order.begin(), order.end());
+    for (int i = 0; i < adj.size(); ++i) {
+        for (int j = i+1; j < adj.size(); ++j) {
+            int a = order[i];
+            int b = order[j];
+            if (adj[b][a]) {
                 return vector<int>();
             }
         }
     }
-
-    reverse(order.begin(), order.end());
-
     return order;
 }
 
@@ -77,24 +65,11 @@ int main(int argc, char const *argv[]) {
     while (cases--) {
         cin >> n;
         vector<string> words(n);
-        for (int i = 0; i < n; ++i) {
-            cin >> words[i];
+        for (string& s : words) {
+            cin >> s;
         }
-
         make_graph(words);
-
-        if (DEBUG) {
-            for (int i = 0; i < adj.size(); ++i) {
-                cerr << char(i + 'a') << ": ";
-                for (int j = 0; j < adj[i].size(); ++j) {
-                    cerr << char(adj[i][j] + 'a') << " ";
-                }
-                cerr << "\n";
-            }
-        }
-
         vector<int> topo = topo_sort();
-
         if (topo.empty()) {
             cout << "INVALID HYPOTHESIS\n";
         } else {
@@ -104,6 +79,5 @@ int main(int argc, char const *argv[]) {
             cout << "\n";
         }
     }
-
     return 0;
 }
