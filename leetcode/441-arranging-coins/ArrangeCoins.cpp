@@ -12,7 +12,7 @@ int BruteForce(int n) {
     return ans;
 }
 
-int arrangeCoins(int n) {
+int BinarySearch(int n) {
     int ans = -1;
     int lo = 0, hi = n;
     while (lo <= hi) {
@@ -28,6 +28,10 @@ int arrangeCoins(int n) {
         }
     }
     return ans;
+}
+
+int arrangeCoins(int n) {
+    return (int)(-0.5 + sqrt((double)2*n + 0.25));
 }
 
 int main(int argc, char const *argv[]) {
