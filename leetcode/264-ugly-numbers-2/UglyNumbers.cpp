@@ -2,22 +2,16 @@
 using namespace std;
 
 int nthUglyNumber(int n) {
-    long long ret = -1;
-    unordered_set<long long> seen;
-    priority_queue<long long, vector<long long>, greater<long long>> pq;
-    pq.push(1);
-    for (int i = 0; i < n; ++i) {
-        while (seen.find(pq.top()) != seen.end()) {
-            pq.pop();
-        }
-        ret = pq.top();
-        pq.pop();
-        seen.insert(ret);
-        pq.push(2 * ret);
-        pq.push(3 * ret);
-        pq.push(5 * ret);
+    vector<int> T(n);
+    T[0] = 1;
+    int i = 0, j = 0, k = 0;
+    for (int l = 1; l < n; ++l) {
+        T[l] = min({2*T[i], 3*T[j], 5*T[k]});
+        if (T[l] == 2*T[i]) i +=1;
+        if (T[l] == 3*T[j]) j +=1;
+        if (T[l] == 5*T[k]) k +=1;
     }
-    return (int)ret;
+    return T[n-1];
 }
 
 int main(int argc, char const *argv[]) {
