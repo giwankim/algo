@@ -1,8 +1,7 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-struct TreeNode
-{
+struct TreeNode {
     int val;
     TreeNode *left;
     TreeNode *right;
@@ -11,32 +10,45 @@ struct TreeNode
     TreeNode(int x, TreeNode *left_, TreeNode *right_) : val(x), left(left_), right(right_) {}
 };
 
-int widthOfBinaryTree(TreeNode *root)
-{
+int bfs(TreeNode *root) {
     if (root == nullptr)
         return 0;
     size_t ret = 0;
-    queue<pair<TreeNode*, size_t>> q;
+    queue<pair<TreeNode *, size_t>> q;
     q.emplace(root, 0);
-    while (q.empty() == false)
-    {
+    while (q.empty() == false) {
         size_t n = q.size();
         size_t left = q.front().second;
-        for (size_t i = 0; i < n; ++i)
-        {
+        for (size_t i = 0; i < n; ++i) {
             TreeNode *node = q.front().first;
             size_t index = q.front().second;
             q.pop();
-            if (node->left)  q.emplace(node->left, 2 * index);
-            if (node->right) q.emplace(node->right, 2 * index + 1);
+            if (node->left)
+                q.emplace(node->left, 2 * index);
+            if (node->right)
+                q.emplace(node->right, 2 * index + 1);
             ret = max(ret, index - left + 1);
         }
     }
     return (int)ret;
 }
 
-int main(int argc, char const *argv[])
-{
+int dfs(TreeNode* node, int h, size_t col, vector<size_t>& lefts) {
+    if (node == nullptr) return 0;
+    if (h == lefts.size()) {
+        lefts.push_back(col);
+    }
+    int ret = col - lefts[h] + 1;
+    ret = max({ret, dfs(node->left, h+1, 2*col, lefts), dfs(node->right, h+1, 2*col+1, lefts)});
+    return ret;
+}
+
+int widthOfBinaryTree(TreeNode *root) {
+    vector<size_t> lefts;
+    return dfs(root, 0, 0, lefts);
+}
+
+int main(int argc, char const *argv[]) {
     {
         cout << "=====Example 1=====\n";
         TreeNode *root = new TreeNode(1);
