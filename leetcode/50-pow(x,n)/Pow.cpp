@@ -1,20 +1,34 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-double PowWow(double x, long long n) {
+double Recursive(double x, long long n) {
     if (n == 0) return 1.0;
-    if (n < 0) return 1 / PowWow(x, -n);
+    if (n < 0) return 1 / Recursive(x, -n);
     double ret = 1.0;
     if (n % 2 == 1) {
         ret *= x;
     }
-    double half = PowWow(x, n / 2);
+    double half = Recursive(x, n / 2);
     ret *= half * half;
     return ret;
 }
 
 double myPow(double x, int n) {
-    return PowWow(x, n);
+    long long i = n;
+    if (i < 0) {
+        i = -i;
+        x = 1 / x;
+    }
+    double ret = 1.0;
+    double prod = x;
+    while (i) {
+        if (i % 2 == 1) {
+            ret *= prod;
+        }
+        prod *= prod;
+        i /= 2;
+    }
+    return ret;
 }
 
 int main(int argc, char const *argv[]) {
