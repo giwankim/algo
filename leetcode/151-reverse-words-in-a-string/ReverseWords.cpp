@@ -2,26 +2,28 @@
 using namespace std;
 
 string reverseWords(string s) {
-    vector<string> tokens;
+    reverse(s.begin(), s.end());
+    int write_idx = 0;
     int i = 0;
     int j = 0;
     while (j < s.size()) {
-        while (i < s.size() && s[i] == ' ') i += 1;
-        j = i;
-        while (j < s.size() && s[j] != ' ') j += 1;
-        if (j > i) {
-            string token = s.substr(i, j - i);
-            tokens.push_back(token);
+        if (write_idx != 0) {
+            s[write_idx++] = ' ';
         }
+        while (i < s.size() && s[i] == ' ') {
+            i += 1;
+        }
+        j = i;
+        while (j < s.size() && s[j] != ' ') {
+            s[write_idx++] = s[j++];
+        }
+        reverse(s.begin() + write_idx - (j - i), s.begin() + write_idx);
         i = j;
     }
-    string ret;
-    for (int i = tokens.size()-1; i > 0; --i) {
-        ret += tokens[i] + " ";
-    }
-    if (!tokens.empty())
-        ret += tokens[0];
-    return ret;
+    s.erase(s.begin() + write_idx, s.end());
+    while (!s.empty() && s.back() == ' ')
+        s.pop_back();
+    return s;
 }
 
 int main(int argc, char const *argv[]) {
