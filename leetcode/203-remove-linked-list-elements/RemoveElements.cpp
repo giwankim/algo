@@ -17,11 +17,29 @@ void _print(ListNode* head) {
     cout << "\n";
 }
 
-ListNode* removeElements(ListNode* head, int val) {
-    if (head == nullptr) return head;
-    if (head->val == val) return removeElements(head->next, val);
-    head->next = removeElements(head->next, val);
+ListNode* Recursive(ListNode* head, int val) {
+    if (head == nullptr)
+        return head;
+    if (head->val == val)
+        return Recursive(head->next, val);
+    head->next = Recursive(head->next, val);
     return head;
+}
+
+ListNode* removeElements(ListNode* head, int val) {
+    ListNode *dummy = new ListNode();
+    dummy->next = head;
+    ListNode *prev = dummy;
+    ListNode *cur = head;
+    while (cur) {
+        if (cur->val == val) {
+            prev->next = cur->next;
+        } else {
+            prev = cur;
+        }
+        cur= cur->next;
+    }
+    return dummy->next;
 }
 
 int main(int argc, char const *argv[]) {
@@ -38,6 +56,29 @@ int main(int argc, char const *argv[]) {
         ListNode *result = removeElements(head, val);
         cout << "Expected:\n";
         cout << "1 2 3 4 5\n";
+        cout << "Output:\n";
+        _print(result);
+    }
+
+    {
+        cout << "=====Example 2=====\n";
+        ListNode *head = new ListNode(1);
+        int val = 1;
+        ListNode *result = removeElements(head, val);
+        cout << "Expected:\n";
+        cout << "\n";
+        cout << "Output:\n";
+        _print(result);
+    }
+
+    {
+        cout << "=====Example 3=====\n";
+        ListNode *head = new ListNode(1);
+        head->next = new ListNode(1);
+        int val = 1;
+        ListNode *result = removeElements(head, val);
+        cout << "Expected:\n";
+        cout << "\n";
         cout << "Output:\n";
         _print(result);
     }
