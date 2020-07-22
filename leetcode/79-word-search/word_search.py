@@ -7,32 +7,32 @@ def exist(board: List[List[str]], word: str) -> bool:
     dy = [0, 0, -1, 1]
     rows = len(board)
     cols = len(board[0])
-    check = [[False] * cols for _ in range(rows)]
 
     def backtrack(i, y, x):
         if i == len(word):
             return True
         if y < 0 or y >= rows or x < 0 or x >= cols:
             return False
-        if check[y][x]:
-            return False
         if board[y][x] != word[i]:
             return False
 
-        check[y][x] = True
+        board[y][x] = "#"
+        ret = False
         for k in range(len(dx)):
             ny = y + dy[k]
             nx = x + dx[k]
             if backtrack(i + 1, ny, nx):
-                return True
-        check[y][x] = False
+                ret = True
+                break
+        board[y][x] = word[i]
 
-        return False
+        return ret
 
     for y in range(rows):
         for x in range(cols):
             if backtrack(0, y, x):
                 return True
+
     return False
 
 
